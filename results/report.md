@@ -21,6 +21,8 @@ First-attempt measurements on Monday and Tuesday, the phase-I period before any 
 - **ACT-E40 current: normality rejected (p = 0.0498)**, caused by a single value, 2.527 A, +2.6 standard deviations from the mean (the part is still inside its specification; at the Bonferroni level (below) this rejection would not count). Without it, Shapiro-Wilk gives p = 0.1788. One extreme reading is enough to reject normality: look at that part before giving up the normal model.
 - **ACT-E40 torque: normality rejected (p = 0.0015)**, caused by a single value, 3.653 Nm, -4.0 standard deviations from the mean (that part failed its test). Without it, Shapiro-Wilk gives p = 0.9428. One extreme reading is enough to reject normality: look at that part before giving up the normal model.
 
+Chi-square goodness of fit for the leak rate (the course's test for a distribution): 6 classes of equal probability under the fitted normal, observed counts [10, 8, 13, 9, 6, 11] against 9.5 expected each; chi2 = 3.11, df = 3, p = 0.3757. Normality is not rejected, in agreement with Shapiro-Wilk.
+
 With 9 tests at the 5 % level, about 0.5 false rejections are expected by chance alone (Bonferroni would test each at 0.0056). Apart from the single outliers above, the data is consistent with normal distributions, so the t intervals, 3-sigma control limits and normal-based capability indices below are reasonable. Not rejecting is not proof of normality; the Q-Q plots in `docs/img/qq.png` show the same.
 
 ## 2. Is each process capable? (Cp, Cpk with confidence intervals)

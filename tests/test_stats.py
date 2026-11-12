@@ -153,3 +153,12 @@ def test_ci_proportion_zero_failures_is_not_empty():
     lo, hi = st.ci_proportion(0, 57)
     assert lo == pytest.approx(0, abs=1e-12)
     assert hi > 0.05
+
+
+def test_chi2_gof_matches_scipy_and_rejects_non_normal_data():
+    r = st.chi2_gof_normal(X, bins=6)
+    ref = sd.chisquare(r.observed, ddof=2)
+    assert (r.statistic, r.p) == pytest.approx((ref.statistic, ref.pvalue))
+    assert r.observed.sum() == X.size
+    assert not r.reject()
+    assert st.chi2_gof_normal(np.random.default_rng(3).exponential(1, 300)).reject()

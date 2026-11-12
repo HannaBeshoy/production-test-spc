@@ -189,6 +189,20 @@ def chi2_independence(table):
     return t
 
 
+def chi2_gof_normal(x, bins=6):
+    """Chi-square goodness-of-fit test for normality: `bins` classes of equal probability under the
+    fitted normal, so every expected count is n / bins. df = bins - 1 - 2 (mean and SD estimated)."""
+    x = np.asarray(x, float)
+    n = x.size
+    edges = x.mean() + x.std(ddof=1) * sd.norm.ppf(np.arange(1, bins) / bins)
+    observed = np.bincount(np.searchsorted(edges, x), minlength=bins)
+    expected = n / bins
+    chi2 = float(((observed - expected) ** 2 / expected).sum())
+    t = Test("chi-square goodness of fit (normal)", chi2, float(sd.chi2.sf(chi2, bins - 3)), bins - 3)
+    t.observed = observed
+    return t
+
+
 # ------------------------------------------------------------------ correlation and regression
 
 def pearson(x, y, conf=0.95):

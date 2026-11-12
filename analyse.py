@@ -90,6 +90,13 @@ def main():
         md.append(f"- **{name}: normality rejected ({P(p_)})**, caused by a single value, {val:g} {unit}, "
                   f"{zv:+.1f} standard deviations from the mean ({note}). Without it, Shapiro-Wilk gives {P(p_wo)}. "
                   "One extreme reading is enough to reject normality: look at that part before giving up the normal model.")
+    lk12 = first[(first.spec_id == 5) & first.day.isin(PHASE1)].value
+    gof = st.chi2_gof_normal(lk12, bins=6)
+    out["gof_leak"] = {"chi2": gof.statistic, "p": gof.p, "df": gof.df, "observed": gof.observed.tolist()}
+    md += ["", f"Chi-square goodness of fit for the leak rate (the course's test for a distribution): 6 classes of equal "
+           f"probability under the fitted normal, observed counts {gof.observed.tolist()} against {len(lk12) / 6:.1f} expected "
+           f"each; chi2 = {gof.statistic:.2f}, df = {gof.df}, {P(gof.p)}. Normality is "
+           f"{'rejected' if gof.reject() else 'not rejected'}, in agreement with Shapiro-Wilk."]
     md += ["", f"With {n_tests} tests at the 5 % level, about {0.05 * n_tests:.1f} false rejections are expected by chance "
            f"alone (Bonferroni would test each at {0.05 / n_tests:.4f}). Apart from the single outliers above, the "
            "data is consistent with normal distributions, so the t intervals, 3-sigma control limits and normal-based "

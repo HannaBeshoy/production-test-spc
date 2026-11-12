@@ -52,6 +52,29 @@ def main():
             w.writeheader()
             w.writerows(data)
         print(f"data/{name}.csv: {len(data)} rows")
+    numeric(meas, runs)
+
+
+def numeric(meas, runs):
+    """Number-only files for matlab/course_methods.m (MATLAB and GNU Octave read them the same way)."""
+    days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+    out = ROOT / "data" / "matlab"
+    out.mkdir(exist_ok=True)
+    leak = [m for m in meas if m["spec_id"] == 5 and m["attempt"] == 1]
+
+    def t_day(m):     # production time in days: Monday 06:00 = 0, one unit per 06:00-21:00 shift day
+        hh, mm = int(m["started_at"][11:13]), int(m["started_at"][14:16])
+        return days.index(m["day"]) + (hh + mm / 60 - 6) / 15
+
+    (out / "leak.csv").write_text("".join(f"{days.index(m['day']) + 1},{t_day(m):.6f},{m['value']}\n" for m in leak))
+    first = [r for r in runs if r["attempt"] == 1 and r["result"] != "ABORT"]
+    tab = [[sum(r["shift"] == s and r["result"] == res for r in first) for res in ("FAIL", "PASS")] for s in "AB"]
+    (out / "shift_table.csv").write_text("".join(f"{a},{b}\n" for a, b in tab))
+    eol = {}
+    for m in meas:
+        if m["station"] == "EOL-2" and m["attempt"] == 1:
+            eol.setdefault(m["run_id"], {})[m["quantity"]] = m["value"]
+    (out / "eol2.csv").write_text("".join(f"{v['current']},{v['stroke']}\n" for v in eol.values() if len(v) == 2))
 
 
 if __name__ == "__main__":

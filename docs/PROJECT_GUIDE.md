@@ -66,20 +66,21 @@ Cpk = (USL - mean) / (3 sigma) for a one-sided limit. Cpk 1.33 means the nearer 
 | Isn't 4 rules = more false alarms? | Yes, about 1-2 % of points. The trade-off is the subject of ARL (average run length) tables. |
 | Would you use this at work? | The I-MR chart with run rules on the leak tester, with the limits recomputed after each seal change, is a standard station monitor. |
 
-## 8. Python and R
+## 8. Python and MATLAB
 
-If the course labs use R, every test has a direct equivalent:
+The course labs use MATLAB. `matlab/course_methods.m` repeats the course's methods on the same data without any toolbox (p-values from `betainc` and `gammainc`), and a test checks that it gives the same numbers as Python. With the Statistics and Machine Learning Toolbox, each test is one line:
 
-| Here | R |
+| Here (Python) | MATLAB toolbox |
 | --- | --- |
-| `welch_t`, `pooled_t`, `paired_t` | `t.test(x, y)`, `t.test(x, y, var.equal = TRUE)`, `t.test(x, y, paired = TRUE)` |
-| `f_test`, `levene` | `var.test(x, y)`, `car::leveneTest(y ~ g)` |
-| `mann_whitney`, `kruskal_wallis` | `wilcox.test(x, y)`, `kruskal.test(y ~ g)` |
-| `anova_oneway`, Tukey | `aov(y ~ g)`, `TukeyHSD(aov(y ~ g))` |
-| `chi2_independence`, Fisher | `chisq.test(tab, correct = FALSE)`, `fisher.test(tab)` |
-| `ci_proportion` | `prop.test(k, n, correct = FALSE)$conf.int` (Wilson) |
-| `linreg`, `pearson` | `lm(y ~ x)`, `cor.test(x, y)` |
-| control charts | the `qcc` package |
+| `welch_t`, `pooled_t`, `paired_t` | `ttest2(x, y, 'Vartype', 'unequal')`, `ttest2(x, y)`, `ttest(x, y)` |
+| `f_test`, `levene` | `vartest2(x, y)`, `vartestn(y, g, 'TestType', 'BrownForsythe')` |
+| `mann_whitney`, `kruskal_wallis` | `ranksum(x, y)`, `kruskalwallis(y, g)` |
+| `anova_oneway`, Tukey | `[p, tbl, stats] = anova1(y, g)`, `multcompare(stats)` |
+| `chi2_gof_normal`, `chi2_independence`, Fisher | `chi2gof(x)`, `crosstab(a, b)`, `fishertest(tab)` |
+| `ci_mean`, `ci_proportion` | `[~, ~, ci] = ttest(x)`, `binofit(k, n)` |
+| `linreg`, `pearson` | `fitlm(x, y)`, `corr(x, y)` |
+| `shapiro`, `normal_qq` | `lillietest(x)` or `adtest(x)`, `qqplot(x)` |
+| control charts, capability | `controlchart(x, 'charttype', 'i')`, `capability(x, [lsl usl])` |
 
 ## 9. Next steps
 

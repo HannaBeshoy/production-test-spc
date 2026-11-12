@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/HannaBeshoy/production-test-spc/actions/workflows/ci.yml/badge.svg)](https://github.com/HannaBeshoy/production-test-spc/actions/workflows/ci.yml)
 
-**Applied Statistics course project** · University of Debrecen, Faculty of Informatics · Python, NumPy, SciPy, pandas · **complete: 48 tests in CI; data from the production-test-db project**
+**Applied Statistics course project** · University of Debrecen, Faculty of Informatics · Python (NumPy, SciPy, pandas) and MATLAB · **complete: 50 tests in CI; data from the production-test-db project**
 
 One week of end-of-line test data from a small bearing, clutch and actuator line, the same week as in my [production-test database](https://github.com/HannaBeshoy/production-test-db). The database project found the problems with SQL. This project asks the statistical questions behind them: is a difference real or chance, how sure are we, and **could the problem have been caught before parts failed?**
 
@@ -11,6 +11,7 @@ One week of end-of-line test data from a small bearing, clutch and actuator line
 - [x] Regression with confidence and prediction bands, Pearson correlation, and a **segmented regression that finds when the wear started**
 - [x] Control charts: individuals and moving range, Xbar-R, p-chart, EWMA, with the four Western Electric run rules
 - [x] Process capability (Cp, Cpk, Pp, Ppk) **with confidence intervals**, and the sample size a reliable Cpk needs
+- [x] **The course's methods again in MATLAB** (`matlab/course_methods.m`, the software of the course labs; also runs in GNU Octave with no toolbox): the same numbers as the Python code, checked in CI
 - [x] Tests check the statistics themselves: SciPy agreement, control-chart constants by simulation, and the 95 % coverage of every confidence interval
 
 ![LEAK-1 control chart](docs/img/control_chart_leak1.png)
@@ -46,22 +47,22 @@ The full report with every number: [results/report.md](results/report.md).
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python analyse.py          # writes results/report.md, results/summary.json and docs/img/
-python -m pytest -q        # 48 tests
+python -m pytest -q        # 50 tests
+cd matlab && octave --eval course_methods    # or run course_methods in MATLAB
 ```
 
 The data in `data/` is exported by `tools/export_data.py` from the database project's generator. From the Oracle database itself, `sql/export_measurements.sql` produces the same table.
 
 ## Course core vs extensions
 
-| Applied Statistics topic | Where |
-| --- | --- |
-| descriptive statistics, distributions, normality | `spc/stats.py` `describe`, `normal_qq`, `shapiro`; report section 1 |
-| confidence intervals (mean, SD, proportion) | `ci_mean`, `ci_sd`, `ci_proportion`; sections 1, 2, 6 |
-| one- and two-sample tests, F test, non-parametric tests | `welch_t`, `pooled_t`, `paired_t`, `f_test`, `mann_whitney`; section 4 |
-| ANOVA and multiple comparisons | `anova_oneway`, `levene`, `kruskal_wallis`, Tukey HSD; section 4 |
-| contingency tables, proportions | `chi2_independence`, `two_proportions`, Fisher; sections 6, 7 |
-| correlation and linear regression | `pearson`, `linreg`; sections 5, 10 |
-| **Extensions:** SPC charts and run rules, EWMA, capability with CIs, change-point regression | `spc/charts.py`, `spc/capability.py`, `hinge_fit` |
+| Applied Statistics lecture | Where in Python | In MATLAB |
+| --- | --- | --- |
+| 7: sample statistics, empirical mean and variance, quantiles, estimation | `describe`, `ci_mean`, `ci_sd`, `ci_proportion`, `normal_qq`; report sections 1, 2, 6 | mean, SD and the t interval |
+| 8: hypothesis testing, t-tests | `welch_t`, `pooled_t`, `paired_t`, `f_test`; section 4 | Welch t-test |
+| 9: chi-square tests: goodness of fit, independence, contingency tables | `chi2_gof_normal`, `chi2_independence`; sections 1, 6, 7 | both tests |
+| 10: covariance, correlation, regression | `pearson`, `linreg`; sections 5, 10 | `corrcoef`, `polyfit` with the slope's standard error |
+| 11: one-way ANOVA | `anova_oneway`; section 4 | one-way ANOVA by day |
+| **Extensions beyond the course:** SPC charts and run rules, EWMA, capability with confidence intervals, change-point regression, Mann-Whitney, Kruskal-Wallis, Levene, Tukey HSD, Wilson and Fisher | `spc/charts.py`, `spc/capability.py`, `hinge_fit` | |
 
 ## Repository layout
 
@@ -73,8 +74,9 @@ analyse.py            the analysis: report, summary and figures
 data/                 measurements.csv (1,380 rows), runs.csv (1,080 rows)
 tools/export_data.py  exports the data from the production-test-db generator
 sql/                  the same export as an Oracle query
+matlab/course_methods.m  the course's methods in MATLAB / GNU Octave
 results/              report.md, summary.json
-tests/                SciPy agreement, simulation checks, the report's findings
+tests/                SciPy agreement, simulation checks, the report's findings, MATLAB against Python
 docs/PROJECT_GUIDE.md how each method works and how to explain it
 ```
 
