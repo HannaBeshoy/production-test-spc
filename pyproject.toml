@@ -2,7 +2,7 @@
 name = "production-test-spc"
 version = "1.0.0"
 description = "Statistical process control and applied statistics on a week of end-of-line test data"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 
 [tool.ruff]
 line-length = 140
