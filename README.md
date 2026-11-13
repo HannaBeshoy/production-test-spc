@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/HannaBeshoy/production-test-spc/actions/workflows/ci.yml/badge.svg)](https://github.com/HannaBeshoy/production-test-spc/actions/workflows/ci.yml)
 
-**Applied Statistics course project** · University of Debrecen, Faculty of Informatics · Python (NumPy, SciPy, pandas) and MATLAB · **complete: 50 tests in CI; data from the production-test-db project**
+**Applied Statistics course project** · University of Debrecen, Faculty of Informatics · Python (NumPy, SciPy, pandas) and MATLAB · **complete: 55 tests in CI; data from the production-test-db project**
 
 One week of end-of-line test data from a small bearing, clutch and actuator line, the same week as in my [production-test database](https://github.com/HannaBeshoy/production-test-db). The database project found the problems with SQL. This project asks the statistical questions behind them: is a difference real or chance, how sure are we, and **could the problem have been caught before parts failed?**
 
@@ -47,7 +47,8 @@ The full report with every number: [results/report.md](results/report.md).
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python analyse.py          # writes results/report.md, results/summary.json and docs/img/
-python -m pytest -q        # 50 tests
+python probability.py      # writes results/probability.md
+python -m pytest -q        # 55 tests
 cd matlab && octave --eval course_methods    # or run course_methods in MATLAB
 ```
 
@@ -57,6 +58,7 @@ The data in `data/` is exported by `tools/export_data.py` from the database proj
 
 | Applied Statistics lecture | Where in Python | In MATLAB |
 | --- | --- | --- |
+| 1 to 6: probability, conditional probability and Bayes' theorem, binomial and Poisson distributions, expected value and variance | `spc/probability.py`, `probability.py`; [results/probability.md](results/probability.md): Friday's 8 clutch failures in 90 runs have a chance of about one in a million under the Monday-Thursday rate | |
 | 7: sample statistics, empirical mean and variance, quantiles, estimation | `describe`, `ci_mean`, `ci_sd`, `ci_proportion`, `normal_qq`; report sections 1, 2, 6 | mean, SD and the t interval |
 | 8: hypothesis testing, t-tests | `welch_t`, `pooled_t`, `paired_t`, `f_test`; section 4 | Welch t-test |
 | 9: chi-square tests: goodness of fit, independence, contingency tables | `chi2_gof_normal`, `chi2_independence`; sections 1, 6, 7 | both tests |
@@ -71,6 +73,8 @@ spc/stats.py          estimation, tests, regression (formulas written out)
 spc/charts.py         I-MR, Xbar-R, p and EWMA charts, Western Electric rules
 spc/capability.py     Cp, Cpk, Pp, Ppk with confidence intervals
 analyse.py            the analysis: report, summary and figures
+spc/probability.py    Bayes, binomial, Poisson (formulas written out)
+probability.py        the probability questions on the same week
 data/                 measurements.csv (1,380 rows), runs.csv (1,080 rows)
 tools/export_data.py  exports the data from the production-test-db generator
 sql/                  the same export as an Oracle query
