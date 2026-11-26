@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/HannaBeshoy/production-test-spc/actions/workflows/ci.yml/badge.svg)](https://github.com/HannaBeshoy/production-test-spc/actions/workflows/ci.yml)
 
-**Applied Statistics course project** · University of Debrecen, Faculty of Informatics · Python (NumPy, SciPy, pandas) and MATLAB · **complete: 55 tests in CI; data from the production-test-db project**
+**Probability Theory and Mathematical Statistics course project** · University of Debrecen, Faculty of Informatics · Python (NumPy, SciPy, pandas) and MATLAB · **complete: 55 tests in CI; data from the production-test-db project**
 
 One week of end-of-line test data from a small bearing, clutch and actuator line, the same week as in my [production-test database](https://github.com/HannaBeshoy/production-test-db). The database project found the problems with SQL. This project asks the statistical questions behind them: is a difference real or chance, how sure are we, and **could the problem have been caught before parts failed?**
 
@@ -56,7 +56,7 @@ The data in `data/` is exported by `tools/export_data.py` from the database proj
 
 ## Course core vs extensions
 
-| Applied Statistics lecture | Where in Python | In MATLAB |
+| Probability Theory and Mathematical Statistics lecture | Where in Python | In MATLAB |
 | --- | --- | --- |
 | 1 to 6: probability, conditional probability and Bayes' theorem, binomial and Poisson distributions, expected value and variance | `spc/probability.py`, `probability.py`; [results/probability.md](results/probability.md): Friday's 8 clutch failures in 90 runs have a chance of about one in a million under the Monday-Thursday rate | |
 | 7: sample statistics, empirical mean and variance, quantiles, estimation | `describe`, `ci_mean`, `ci_sd`, `ci_proportion`, `normal_qq`; report sections 1, 2, 6 | mean, SD and the t interval |
