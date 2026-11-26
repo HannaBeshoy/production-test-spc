@@ -1,4 +1,4 @@
-% course_methods.m - the Applied Statistics course's methods in MATLAB, on the same data
+% course_methods.m - the Probability Theory and Mathematical Statistics course's methods in MATLAB, on the same data
 % as the Python analysis (analyse.py). Runs in MATLAB and in GNU Octave without any toolbox:
 % the p-values come from betainc and gammainc. With the Statistics and Machine Learning
 % Toolbox, the one-line equivalent of each test is given in a comment.

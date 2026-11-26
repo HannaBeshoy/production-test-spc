@@ -4,7 +4,7 @@ results/summary.json and the figures in docs/img/.
     python analyse.py
 
 Each section answers one question a quality engineer would ask, with the method from the
-Applied Statistics course that fits it. The data: data/measurements.csv and data/runs.csv
+Probability Theory and Mathematical Statistics course that fits it. The data: data/measurements.csv and data/runs.csv
 (tools/export_data.py, from the production-test-db project).
 """
 from __future__ import annotations
